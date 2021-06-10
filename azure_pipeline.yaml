@@ -44,7 +44,7 @@ parameters:
   - name: environment_components
     type: object
     default:
-    - deployment: 'rg-dev'
+    - deployment: 'dev_rg'
       environment: 'dev'
       component: 'rg'
       service_connection: 'pih-shared-sbox'
