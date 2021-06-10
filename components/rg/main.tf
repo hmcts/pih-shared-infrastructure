@@ -5,10 +5,8 @@ resource "azurerm_resource_group" "rg" {
 
 module "storage_account" {
   source                   = "git@github.com:hmcts/cnp-module-storage-account.git?ref=master"
-  env                      = ${var.env}
-  storage_account_name     = ${var.storage_account_name}
-  location                 = var.azurerm_location
-  access_tier              = var.access_tier
+  env                      = "${var.env}"
+  storage_account_name     = "${var.storage_account_name}"
   team_contact             = "#vh-devops"
   team_name                = "Video Hearings"
 
