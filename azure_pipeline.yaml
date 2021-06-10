@@ -44,22 +44,26 @@ parameters:
   - name: environment_components
     type: object
     default:
+    - deployment: 'sbox_rg'
+      environment: 'sbox'
+      component: 'rg'
+      service_connection: 'DTS-SHAREDSERVICES-SBOX'
+      dependsOn: 'Precheck'
+
     - deployment: 'test_rg'
       environment: 'test'
       component: 'rg'
       service_connection: 'DTS-SHAREDSERVICES-TEST'
-      storage_account_rg: 'pip-shared-test'
-      storage_account_name: 'pip-shared-test'
+
       dependsOn: 'Precheck'
 
     - deployment: 'dev_rg'
       environment: 'dev'
       component: 'rg'
       service_connection: "DTS-SHAREDSERVICES-DEV"
-      storage_account_rg: 'pip-shared-dev'
-      storage_account_name: 'pip-shared-dev'
-      dependsOn: 'Precheck'
       
+      dependsOn: 'Precheck'
+
 
 stages:
   - stage: Precheck
