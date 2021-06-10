@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6916c2b1-be15-4559-98ab-4386071b362b" name="Default Changelist" comment="" />
+    <list default="true" id="6916c2b1-be15-4559-98ab-4386071b362b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/components/rg/variable.tf" beforeDir="false" afterPath="$PROJECT_DIR$/components/rg/variable.tf" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,6 +47,9 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/environments" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
