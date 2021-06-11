@@ -6,7 +6,5 @@ resource "azurerm_resource_group" "rg" {
 module "storage_account" {
   source                   = "git@github.com:hmcts/cnp-module-storage-account.git?ref=master"
   env                      = "${var.env}"
-  storage_account_name     = "pip-sharedinfra-${var.env}-sa"
-
-
+  storage_account_name     = "pip-sharedinfra-${var.env}-rg"
 }
