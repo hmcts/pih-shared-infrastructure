@@ -7,4 +7,7 @@ module "storage_account" {
   source               = "github.com/hmcts/cnp-module-storage-account.git?ref=Fix_Vars"
   env                  = var.env
   storage_account_name = "pip-sharedinfra-${var.env}-sa"
+  account_kind         = "Storage"
+  resource_group_name  = "pip-sharedinfra-${var.env}-rg"
+
 }
