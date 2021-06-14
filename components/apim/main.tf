@@ -11,5 +11,6 @@ resource "azurerm_api_management" "example" {
   publisher_email     = "publishingandinformation@hmcts.net"
 
   sku_name = "Developer_1"
+  virtual_network_type = "none"
 
 }
