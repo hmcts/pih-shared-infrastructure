@@ -5,8 +5,8 @@
 
 resource "azurerm_api_management" "example" {
   name                = "pip-apim-svc-${var.env}"
-  location            = "pip-apim-${var.env}-rg"
-  resource_group_name = "UK South"
+  location            = "UK South"
+  resource_group_name = "pip-apim-${var.env}-rg"
   publisher_name      = "Publishing and information Project"
   publisher_email     = "publishingandinformation@hmcts.net"
 
