@@ -1,7 +1,7 @@
-resource "azurerm_resource_group" "apim" {
-  name     = "pip-apim-${var.env}-rg"
-  location = "UK South"
-}
+# resource "azurerm_resource_group" "apim" {
+#   name     = "pip-apim-${var.env}-rg"
+#   location = "UK South"
+# }
 
 resource "azurerm_api_management" "example" {
   name                = "pip-apim-svc-${var.env}"
