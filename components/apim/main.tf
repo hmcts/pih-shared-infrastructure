@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "apim" {
 }
 
 resource "azurerm_api_management" "example" {
-  name                = "pih-apim-svc-${var.env}"
+  name                = "pip-apim-svc-${var.env}"
   location            = azurerm_resource_group.apim.location
   resource_group_name = azurerm_resource_group.apim.name
   publisher_name      = "Publishing and information Project"
