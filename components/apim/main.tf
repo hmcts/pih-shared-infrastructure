@@ -10,9 +10,7 @@ resource "azurerm_api_management" "example" {
   publisher_name      = "Publishing and information Project"
   publisher_email     = "publishingandinformation@hmcts.net"
 
-  sku_name             = "Developer_1"
-  virtual_network_type = "none"
-  portal               = "https://pip-apim-svc-${var.env}.developer.azure-api.net"
-  developer_portal     = "https://pip-apim-svc-${var.env}.developer.azure-api.net"
+  sku_name = "Developer_1"
+  virtual_network_type = "None"
 
 }
