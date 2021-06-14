@@ -9,5 +9,6 @@ module "storage_account" {
   storage_account_name = "pipshared${var.env}sa"
   account_kind         = "StorageV2"
   resource_group_name  = "pipshared${var.env}rg"
+  enable_data_protection = "true"
 
 }
