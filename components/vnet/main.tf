@@ -5,11 +5,11 @@ resource "azurerm_resource_group" "rg" {
 
 module "vnet" {
   source                = "git@github.com:hmcts/cnp-module-vnet?ref=fix-address-prefix"
-  name                  = var.name
+  name                  = "pip-sharedinfra-vnet-${var.env}"
   location              = var.location
-  address_space         = var.address_space
-  source_range          = var.address_space
-  env                   = var.env
+  address_space         = "10.101.1.0/26"
+  source_range          = "10.101.1.0/26"
+  env                   = "${var.env}"
   lb_private_ip_address = cidrhost(cidrsubnet(var.address_space, 4, 2), -2)
 
   common_tags = var.common_tags

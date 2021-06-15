@@ -91,10 +91,18 @@ parameters:
     - deployment: 'dev_apim'
       environment: 'dev'
       component: 'apim'
-      service_connection: "DTS-SHAREDSERVICES-DEV"
+      service_connection: "DTS-SHAxREDSERVICES-DEV"
       storage_account_name: "pip-devops-dev-sa"
       
       dependsOn: 'dev_rg'
+
+    - deployment: 'sbox_vnet'
+      environment: 'sbox'
+      component: 'vnet'
+      service_connection: "DTS-SHAREDSERVICES-DEV"
+      storage_account_name: "pip-devops-dev-sa"
+      
+      dependsOn: 'sbox_kv'
 
 
 stages:
