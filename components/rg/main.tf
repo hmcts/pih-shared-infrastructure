@@ -8,6 +8,13 @@ resource "azurerm_resource_group" "rg1" {
   location = "UK South"
 }
 
+resource "azurerm_resource_group" "rg2" {
+  name     = "pip-apim-${var.env}-rg"
+  location = "UK South"
+}
+
+
+
 module "storage_account" {
   source                 = "github.com/hmcts/cnp-module-storage-account.git?ref=Fix_Vars"
   env                    = var.env
