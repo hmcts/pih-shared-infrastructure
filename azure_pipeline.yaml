@@ -73,28 +73,28 @@ parameters:
       
       dependsOn: 'Precheck'
 
-    - deployment: 'sbox_apim'
-      environment: 'sbox'
-      component: 'apim'
-      service_connection: 'DTS-SHAREDSERVICES-SBOX'
-      storage_account_name: pip-devops-sbox-sa
-      dependsOn: 'sbox_rg'
+    # - deployment: 'sbox_apim'
+    #   environment: 'sbox'
+    #   component: 'apim'
+    #   service_connection: 'DTS-SHAREDSERVICES-SBOX'
+    #   storage_account_name: pip-devops-sbox-sa
+    #   dependsOn: 'sbox_rg'
 
-    - deployment: 'test_apim'
-      environment: 'test'
-      component: 'apim'
-      service_connection: 'DTS-SHAREDSERVICES-TEST'
-      storage_account_name: "pip-devops-test-sa"
+    # - deployment: 'test_apim'
+    #   environment: 'test'
+    #   component: 'apim'
+    #   service_connection: 'DTS-SHAREDSERVICES-TEST'
+    #   storage_account_name: "pip-devops-test-sa"
 
-      dependsOn: 'test_rg'
+    #   dependsOn: 'test_rg'
 
-    - deployment: 'dev_apim'
-      environment: 'dev'
-      component: 'apim'
-      service_connection: "DTS-SHAREDSERVICES-DEV"
-      storage_account_name: "pip-devops-dev-sa"
+    # - deployment: 'dev_apim'
+    #   environment: 'dev'
+    #   component: 'apim'
+    #   service_connection: "DTS-SHAREDSERVICES-DEV"
+    #   storage_account_name: "pip-devops-dev-sa"
       
-      dependsOn: 'dev_rg'
+      # dependsOn: 'dev_rg'
 
     - deployment: 'sbox_vnet'
       environment: 'sbox'
