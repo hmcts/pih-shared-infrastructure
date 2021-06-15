@@ -12,7 +12,9 @@ module "claim-store-vault" {
   resource_group_name     = "pipshared${var.env}rg"
   product_group_name      = "DTS Publishing and Information" # e.g. MI Data Platform, or dcd_cmc
   create_managed_identity = true
-  common_tags             = map("Team Slack", "#vh-devops")
+  common_tags = tomap({
+    Team_contact = "#vh-devops"
+  })
 
 
 
