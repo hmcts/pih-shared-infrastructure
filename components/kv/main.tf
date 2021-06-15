@@ -12,6 +12,7 @@ module "claim-store-vault" {
   resource_group_name     = "pipshared${var.env}rg"
   product_group_name      = "DTS Publishing and Information" # e.g. MI Data Platform, or dcd_cmc
   create_managed_identity = true
+  common_tags         = var.common_tags
 
 
 }
