@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 module "claim-store-vault" {
-  source              = "git@github.com:hmcts/cnp-module-key-vault?ref=master"
+  source              = "git@github.com:hmcts/cnp-module-key-vault"
   name                = "pip-shared-kv-${var.env}" // Max 24 characters
   product             = "pip"
   env                 = var.env
