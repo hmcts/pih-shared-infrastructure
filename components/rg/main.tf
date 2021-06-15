@@ -3,6 +3,11 @@ resource "azurerm_resource_group" "rg" {
   location = "UK South"
 }
 
+resource "azurerm_resource_group" "rg1" {
+  name     = "pip-sharedservices-${var.env}-rg"
+  location = "UK South"
+}
+
 module "storage_account" {
   source                 = "github.com/hmcts/cnp-module-storage-account.git?ref=Fix_Vars"
   env                    = var.env
