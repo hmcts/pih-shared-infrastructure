@@ -72,7 +72,7 @@ parameters:
       component: 'apim'
       service_connection: 'DTS-SHAREDSERVICES-SBOX'
       storage_account_name: pip-devops-sbox-sa
-      dependsOn: 'Precheck'
+      dependsOn: 'sbox_rg'
 
     - deployment: 'test_apim'
       environment: 'test'
