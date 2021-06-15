@@ -10,7 +10,7 @@ resource "azurerm_api_management" "example" {
   publisher_name      = "Publishing and information Project"
   publisher_email     = "publishingandinformation@hmcts.net"
 
-  sku_name             = "Developer_1"
+  sku_name             = "Premium_1"
   virtual_network_type = "None"
 
 }
