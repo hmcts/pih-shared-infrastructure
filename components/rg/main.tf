@@ -1,6 +1,6 @@
- resource "azurerm_resource_group" "rg" {
-   name     = "pipshared${var.env}rg"
-   location = "UK South"
+resource "azurerm_resource_group" "rg" {
+  name     = "pipshared${var.env}rg"
+  location = "UK South"
 }
 
 resource "azurerm_resource_group" "rg1" {
