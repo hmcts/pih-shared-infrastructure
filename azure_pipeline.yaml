@@ -51,12 +51,18 @@ parameters:
       storage_account_name: pip-devops-sbox-sa
       dependsOn: 'Precheck'
 
+    - deployment: 'sbox_kv'
+      environment: 'sbox'
+      component: 'kv'
+      service_connection: 'DTS-SHAREDSERVICES-SBOX'
+      storage_account_name: pip-devops-sbox-sa
+      dependsOn: 'sbox_rg'
+
     - deployment: 'test_rg'
       environment: 'test'
       component: 'rg'
       service_connection: 'DTS-SHAREDSERVICES-TEST'
       storage_account_name: "pip-devops-test-sa"
-
       dependsOn: 'Precheck'
 
     - deployment: 'dev_rg'
