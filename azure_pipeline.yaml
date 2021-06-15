@@ -80,7 +80,7 @@ parameters:
       service_connection: 'DTS-SHAREDSERVICES-TEST'
       storage_account_name: "pip-devops-test-sa"
 
-      dependsOn: 'Precheck'
+      dependsOn: 'test_rg'
 
     - deployment: 'dev_apim'
       environment: 'dev'
@@ -88,7 +88,7 @@ parameters:
       service_connection: "DTS-SHAREDSERVICES-DEV"
       storage_account_name: "pip-devops-dev-sa"
       
-      dependsOn: 'Precheck'
+      dependsOn: 'dev_rg'
 
 
 stages:
