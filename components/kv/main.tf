@@ -11,6 +11,7 @@ module "claim-store-vault" {
   object_id           = "DTS Key Vault Administrators"
   resource_group_name = "pipshared${var.env}rg"
   product_group_name  = "DTS Publishing and Information" # e.g. MI Data Platform, or dcd_cmc
+  create_managed_identity = true
 
 
 }
