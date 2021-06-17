@@ -65,6 +65,13 @@ parameters:
       storage_account_name: "pip-devops-test-sa"
       dependsOn: 'Precheck'
 
+    - deployment: 'test_kv'
+      environment: 'test'
+      component: 'kv'
+      service_connection: 'DTS-SHAREDSERVICES-TEST'
+      storage_account_name: pip-devops-test-sa
+      dependsOn: 'test_rg'
+
     - deployment: 'dev_rg'
       environment: 'dev'
       component: 'rg'
