@@ -9,7 +9,7 @@ module "claim-store-vault" {
   product                 = "pip"
   env                     = var.env
   object_id               = "89713d0c-d5a3-4b8c-98b1-747325916dd4"
-  resource_group_name     = "pipshared${var.env}rg"
+  resource_group_name     = "pip-sharedservices-${var.env}-rg"
   product_group_name      = "DTS Publishing and Information" # e.g. MI Data Platform, or dcd_cmc
   create_managed_identity = true
   common_tags = tomap({
