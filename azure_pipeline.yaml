@@ -112,7 +112,7 @@ parameters:
       dependsOn: 'sbox_kv'
     
     - deployment: 'test_vnet'
-      environment: 'xtest'
+      environment: 'test'
       component: 'vnet'
       service_connection: "DTS-SHAREDSERVICES-TEST"
       storage_account_name: "pip-devops-test-sa"
