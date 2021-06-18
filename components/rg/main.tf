@@ -24,3 +24,9 @@ module "storage_account" {
   enable_data_protection = "true"
 
 }
+
+resource "azurerm_storage_container" "example" {
+  name                  = "piptfstateterraform"
+  storage_account_name  = "pipshared${var.env}sa"
+  container_access_type = "private"
+}
