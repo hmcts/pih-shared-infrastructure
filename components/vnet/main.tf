@@ -20,6 +20,7 @@
 ## }
 
 module "vnet" {
+  source              = "Azure/vnet/azurerm"
   name                = "pip-sharedinfra-vnet-${var.env}"
   resource_group_name = "pip-sharedinfra-${var.env}-rg"
   vnet_location       = "UK South"
