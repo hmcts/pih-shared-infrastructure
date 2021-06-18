@@ -16,3 +16,7 @@ variable "common_tags" {
 variable "lb_private_ip_address" {
   default = ""
 } 
+
+variable "address_space" {
+  default = ""
+}
