@@ -109,7 +109,7 @@ parameters:
       service_connection: "DTS-SHAREDSERVICES-DEV"
       storage_account_name: "pip-devops-dev-sa"
       
-      #dependsOn: 'sbox_kv'
+      dependsOn: 'sbox_kv'
     
     - deployment: 'test_vnet'
       environment: 'xtest'
@@ -117,7 +117,7 @@ parameters:
       service_connection: "DTS-SHAREDSERVICES-TEST"
       storage_account_name: "pip-devops-test-sa"
       
-      dependsOn: 'test_kv'
+      #dependsOn: 'test_kv'
 
 
 stages:
