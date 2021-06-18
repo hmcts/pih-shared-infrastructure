@@ -18,5 +18,5 @@ variable "lb_private_ip_address" {
 } 
 
 variable "address_space" {
-  default = ""
+  default = "10.101.1.0/26"
 }
