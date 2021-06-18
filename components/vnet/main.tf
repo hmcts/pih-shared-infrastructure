@@ -1,5 +1,7 @@
+
+
 resource "azurerm_resource_group" "rg" {
-  name     = "pip-sharedinfra-${environment}-rg"
+  name     = "pip-sharedinfra-${var.env}-rg"
   location = "UK South"
 }
 
@@ -20,7 +22,7 @@ resource "azurerm_resource_group" "rg" {
 
 module "vnet" {
   source              = "Azure/vnet/azurerm"
-  resource_group_name = rg.name
+  resource_group_name = "pip-sharedinfra-${var.env}-rg"
   vnet_location       = "UK South"
   address_space       = ["10.101.1.0/26"]
   subnet_prefixes     = ["10.101.1.32/27", "10.101.1.0/27"]
