@@ -1,9 +1,9 @@
 
 
-resource "azurerm_resource_group" "rg" {
-  name     = "pip-sharedinfra-${var.env}-rg"
-  location = "UK South"
-}
+##resource "azurerm_resource_group" "rg" {
+##  name     = "pip-sharedinfra-${var.env}-rg"
+##  location = "UK South"
+##}
 
 ## module "vnet" {
 ##   source                = "github.com/hmcts/cnp-module-vnet?ref=fix-address-prefix"
