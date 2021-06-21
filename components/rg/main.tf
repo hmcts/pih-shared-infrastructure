@@ -23,9 +23,16 @@ module "storage_account" {
   resource_group_name    = "pipshared${var.env}rg"
   enable_data_protection = "true"
 
+  ip_rules = [
+    "13.107.6.0/24",
+    "13.107.9.0/24",
+    "13.107.42.0/24",
+    "13.107.43.0/24",
+  ]
+
 }
 
-resource "azurerm_storage_container" "example" {
+resource "azurerm_storage_container" "piptfstateterraform" {
   name                  = "piptfstateterraform"
   storage_account_name  = "pipshared${var.env}sa"
   container_access_type = "private"
