@@ -117,7 +117,7 @@ parameters:
       service_connection: "DTS-SHAREDSERVICES-TEST"
       storage_account_name: "pip-devops-test-sa"
       
-      #dependsOn: 'test_kv'
+      dependsOn: 'test_kv'
 
 
 stages:
