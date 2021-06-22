@@ -22,7 +22,7 @@ module "storage_account" {
   account_kind           = "BlockBlobStorage"
   resource_group_name    = "pipshared${var.env}rg"
   enable_data_protection = "true"
-
+  ip_rules               = ["0.0.0.0/0"]
 }
 
 resource "azurerm_storage_container" "piptfstateterraform" {
