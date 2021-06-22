@@ -25,7 +25,7 @@ module "vnet" {
   resource_group_name = "pip-sharedinfra-${var.env}-rg"
   vnet_location       = "UK South"
   address_space       = ["10.101.1.0/26"]
-  subnet_prefixes     = ["10.101.1.32/27", "10.101.1.0/27", "10.101.1.2/26"]
+  subnet_prefixes     = ["10.101.1.32/27", "10.101.1.0/27", "10.101.1.128/26"]
   subnet_names        = ["mgmt-subnet-${var.env}", "apim-subnet-${var.env}", "pip-subnet-${var.env}"]
   tags = {
     environment = "${var.env}"
