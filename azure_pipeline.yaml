@@ -1,15 +1,15 @@
 # Docs:
 # https://aka.ms/yaml
 
-trigger:
-  batch: true
-  branches:
-    include:
-    - master
-  paths:
-    exclude:
-    - /modules/azure-landing-zone/*
-    - /components/global/*
+trigger: none
+  #batch: true
+  #branches:
+  #  include:
+  #  - master
+  #paths:
+  #  exclude:
+  #  - /modules/azure-landing-zone/*
+  #  - /components/global/*
 
 resources:
   repositories:
