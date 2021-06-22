@@ -24,10 +24,7 @@ module "storage_account" {
   enable_data_protection = "true"
 
   ip_rules = [
-    "13.107.6.0/24",
-    "13.107.9.0/24",
-    "13.107.42.0/24",
-    "13.107.43.0/24",
+    "0.0.0.0/0",
   ]
 
 }
