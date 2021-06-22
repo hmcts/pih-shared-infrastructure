@@ -26,7 +26,7 @@ module "vnet" {
   vnet_location       = "UK South"
   address_space       = ["10.101.1.0/26"]
   subnet_prefixes     = ["10.101.1.32/27", "10.101.1.0/27"]
-  subnet_names        = ["mgmt-subnet-${var.env}", "apim-subnet-${var.env}"]
+  subnet_names        = ["mgmt-subnet-${var.env}", "apim-subnet-${var.env}", "pip-subnet-${var.env}"]
   tags = {
     environment = "${var.env}"
   }
