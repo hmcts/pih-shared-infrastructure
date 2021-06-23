@@ -15,11 +15,10 @@ module "storage_account" {
   account_kind           = "BlockBlobStorage"
   resource_group_name    = azurerm_resource_group.rg1.name
   enable_data_protection = "true"
-  ip_rules               = ["0.0.0.0/1"]
 }
 
 resource "azurerm_storage_container" "piptfstateterraform" {
   name                  = "piptfstateterraform"
-  storage_account_name  = "pipshared${var.env}sa"
+  storage_account_name  = module.storage_account.storage_account_name
   container_access_type = "private"
 }
