@@ -13,7 +13,7 @@ module "storage_account" {
   env                    = var.env
   storage_account_name   = "pipshared${var.env}sa"
   account_kind           = "BlockBlobStorage"
-  resource_group_name    = "pipshared${var.env}rg"
+  resource_group_name    = rg1.name
   enable_data_protection = "true"
   ip_rules               = ["0.0.0.0/1"]
 }
