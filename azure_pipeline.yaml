@@ -126,6 +126,13 @@ parameters:
       storage_account_name: "pip-devops-dev-sa"
       dependsOn: 'dev_rg'
 
+    - deployment: 'dev_kv'
+      environment: 'dev'
+      component: 'kv'
+      service_connection: 'DTS-SHAREDSERVICES-DEV'
+      storage_account_name: pip-devops-dev-sa
+      dependsOn: 'dev_rg'
+
       
 
 
