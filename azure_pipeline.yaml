@@ -124,6 +124,8 @@ parameters:
       component: 'vnet'
       service_connection: "DTS-SHAREDSERVICES-dev"
       storage_account_name: "pip-devops-dev-sa"
+      dependsOn: 'dev_rg'
+
       
 
 
