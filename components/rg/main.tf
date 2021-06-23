@@ -19,6 +19,6 @@ module "storage_account" {
 
 resource "azurerm_storage_container" "piptfstateterraform" {
   name                  = "piptfstateterraform"
-  storage_account_name  = module.storage_account.storage_account_name
+  storage_account_name  = module.storage_account.name
   container_access_type = "private"
 }
