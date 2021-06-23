@@ -119,6 +119,14 @@ parameters:
       
       dependsOn: 'test_kv'
 
+    - deployment: 'dev_vnet'
+      environment: 'dev'
+      component: 'vnet'
+      service_connection: "DTS-SHAREDSERVICES-dev"
+      storage_account_name: "pip-devops-dev-sa"
+      
+
+
 
 stages:
   - stage: Precheck
