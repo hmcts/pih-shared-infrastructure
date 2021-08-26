@@ -133,6 +133,25 @@ parameters:
       storage_account_name: pip-devops-dev-sa
       dependsOn: 'dev_rg'
 
+    - deployment: stg_rg
+      environment: stg
+      component: rg
+      service_connection: DTS-SHAREDSERVICES-STG
+      storage_account_name: pip-devops-stg-sa
+      dependsOn: Precheck
+    - deployment: stg_kv
+      environment: stg
+      component: kv
+      service_connection: DTS-SHAREDSERVICES-STG
+      storage_account_name: pip-devops-stg-sa
+      dependsOn: stg_rg
+    - deployment: stg_vnet
+      environment: stg
+      component: vnet
+      service_connection: DTS-SHAREDSERVICES-STG
+      storage_account_name: pip-devops-stg-sa
+      dependsOn: stg_rg
+
       
 
 
