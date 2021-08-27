@@ -23,7 +23,7 @@ parameters:
   - name: environments
     type: object
     default:
-      - name: stg
+      - name: sbox
       - name: dev
       - name: test
       - name: stg
