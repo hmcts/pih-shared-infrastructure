@@ -33,15 +33,6 @@ variables:
   - template: vars/input-variables.yaml@cnp-azuredevops-libraries
 
 parameters:
-  - name: overrideAction
-    type: string
-    default: plan
-    values:
-    - plan
-    - apply
-    - destroy
-
-  
   - name: environments
     type: object
     default:
@@ -71,21 +62,20 @@ stages:
       parameters: 
         env: environment
         terraformAction: plan
-        dependsOn: 
-          - ${{ if eq('${{ environment }}', 'sbox') }}:
-            - Precheck
-          - ${{ if eq('${{ environment }}', 'dev') }}:
-            - apply_sbox
-          - ${{ if eq('${{ environment }}', 'test') }}:
-            - apply_dev
-          - ${{ if eq('${{ environment }}', 'stg') }}:
-            - apply_test
+        ${{ if eq('${{ environment }}', 'sbox') }}:
+          dependsOn: Precheck
+        ${{ if eq('${{ environment }}', 'dev') }}:
+          dependsOn: apply_sbox
+        ${{ if eq('${{ environment }}', 'test') }}:
+          dependsOn: apply_dev
+        ${{ if eq('${{ environment }}', 'stg') }}:
+          dependsOn: apply_test
 
     - ${{ if ne('${{ environment }}', 'sbox') }}:
       - template: pipeline/stages/wait.yaml
         parameters: 
           env: environment
-          dependsOn: plan_${{ environment }}
+          dependsOn: 'plan_${{ environment }}'
 
     - template: pipeline/stages/tf-action.yaml
       parameters: 
