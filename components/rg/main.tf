@@ -1,6 +1,6 @@
 locals {
   sharedServicePrefix = "pipshared${var.env}"
-  sharedInfraPrefix = "pip-sharedservices-${var.env}-"
+  sharedInfraPrefix   = "pip-sharedservices-${var.env}-"
 }
 
 resource "azurerm_resource_group" "rg" {
