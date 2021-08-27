@@ -62,18 +62,18 @@ stages:
       parameters: 
         env: ${{ environment.name }}
         terraformAction: plan
-        ${{ if eq('${{ environment.name }}', 'sbox') }}:
+        ${{ if eq(environment.name, 'sbox') }}:
           tfDependsOn: Precheck
-        ${{ if eq('${{ environment.name }}', 'dev') }}:
+        ${{ if eq(environment.name, 'dev') }}:
           tfDependsOn: apply_sbox
-        ${{ if eq('${{ environment.name }}', 'test') }}:
+        ${{ if eq(environment.name, 'test') }}:
           tfDependsOn: apply_dev
-        ${{ if eq('${{ environment.name }}', 'stg') }}:
+        ${{ if eq(environment.name, 'stg') }}:
           tfDependsOn: apply_test
-        ${{ if eq('${{ environment.name }}', 'prod') }}:
+        ${{ if eq(environment.name, 'prod') }}:
           tfDependsOn: apply_stg
 
-    - ${{ if ne('${{ environment.name }}', 'sbox') }}:
+    - ${{ if ne(environment.name, 'sbox') }}:
       - template: pipeline/stages/wait.yaml
         parameters: 
           env: ${{ environment.name }}
@@ -83,8 +83,8 @@ stages:
       parameters: 
         env: environment
         terraformAction: apply
-        ${{ if eq('${{ environment.name }}', 'sbox') }}:
+        ${{ if eq(environment.name, 'sbox') }}:
           tfDependsOn: plan_${{ environment.name }}
-        ${{ if ne('${{ environment.name }}', 'sbox') }}:
+        ${{ if ne(environment.name, 'sbox') }}:
           tfDependsOn: wait_${{ environment.name }}
 
