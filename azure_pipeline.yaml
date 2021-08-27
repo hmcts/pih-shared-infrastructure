@@ -33,6 +33,8 @@ stages:
   - stage: Precheck
     jobs:
       - job:
+        variables:
+          - template: pipeline/variables/shared.yaml
         pool:
           vmImage: ${{ variables.agentPool }}
         timeoutInMinutes: ${{ variables.timeoutInMinutes }}
