@@ -70,7 +70,7 @@ stages:
 
     - template: pipeline/stages/tf-action.yaml
       parameters: 
-        env: environment
+        env: ${{ environment.name }}
         terraformAction: apply
         ${{ if eq(environment.name, 'sbox') }}:
           tfDependsOn: plan_${{ environment.name }}
