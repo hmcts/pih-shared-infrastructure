@@ -1,0 +1,19 @@
+parameters:
+  - name: env
+    type: string
+  - name: dependsOn
+    type: string
+
+stages:
+  - stage: 'wait_${{ parameters.env }}'
+    dependsOn: ${{ parameters.dependsOn }}
+    displayName: Wait ${{ parameters.env }} 
+
+    jobs:
+      - job: Wait
+        displayName: "Wait for approval"
+        pool: server
+        steps:
+          - template: pipeline/steps/wait.yml
+            parameters:
+              environment: ${{ parameters.env }}

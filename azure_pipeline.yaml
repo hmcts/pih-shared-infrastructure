@@ -41,120 +41,15 @@ parameters:
     - apply
     - destroy
 
-  - name: environment_components
+  
+  - name: environments
     type: object
     default:
-    - deployment: 'sbox_rg'
-      environment: 'sbox'
-      component: 'rg'
-      service_connection: 'DTS-SHAREDSERVICES-SBOX'
-      storage_account_name: pip-devops-sbox-sa
-      dependsOn: 'Precheck'
-
-    - deployment: 'sbox_kv'
-      environment: 'sbox'
-      component: 'kv'
-      service_connection: 'DTS-SHAREDSERVICES-SBOX'
-      storage_account_name: pip-devops-sbox-sa
-      dependsOn: 'sbox_rg'
-
-    - deployment: 'test_rg'
-      environment: 'test'
-      component: 'rg'
-      service_connection: 'DTS-SHAREDSERVICES-TEST'
-      storage_account_name: "pip-devops-test-sa"
-      dependsOn: 'Precheck'
-
-    - deployment: 'test_kv'
-      environment: 'test'
-      component: 'kv'
-      service_connection: 'DTS-SHAREDSERVICES-TEST'
-      storage_account_name: pip-devops-test-sa
-      dependsOn: 'test_rg'
-
-    - deployment: 'dev_rg'
-      environment: 'dev'
-      component: 'rg'
-      service_connection: "DTS-SHAREDSERVICES-DEV"
-      storage_account_name: "pip-devops-dev-sa"
-      
-      dependsOn: 'Precheck'
-
-    # - deployment: 'sbox_apim'
-    #   environment: 'sbox'
-    #   component: 'apim'
-    #   service_connection: 'DTS-SHAREDSERVICES-SBOX'
-    #   storage_account_name: pip-devops-sbox-sa
-    #   dependsOn: 'sbox_rg'
-
-    # - deployment: 'test_apim'
-    #   environment: 'test'
-    #   component: 'apim'
-    #   service_connection: 'DTS-SHAREDSERVICES-TEST'
-    #   storage_account_name: "pip-devops-test-sa"
-
-    #   dependsOn: 'test_rg'
-
-    # - deployment: 'dev_apim'
-    #   environment: 'dev'
-    #   component: 'apim'
-    #   service_connection: "DTS-SHAREDSERVICES-DEV"
-    #   storage_account_name: "pip-devops-dev-sa"
-      
-      # dependsOn: 'dev_rg'
-
-    - deployment: 'sbox_vnet'
-      environment: 'sbox'
-      component: 'vnet'
-      service_connection: "DTS-SHAREDSERVICES-DEV"
-      storage_account_name: "pip-devops-dev-sa"
-      
-      dependsOn: 'sbox_kv'
-    
-    - deployment: 'test_vnet'
-      environment: 'test'
-      component: 'vnet'
-      service_connection: "DTS-SHAREDSERVICES-TEST"
-      storage_account_name: "pip-devops-test-sa"
-      
-      dependsOn: 'test_kv'
-
-    - deployment: 'dev_vnet'
-      environment: 'dev'
-      component: 'vnet'
-      service_connection: "DTS-SHAREDSERVICES-dev"
-      storage_account_name: "pip-devops-dev-sa"
-      dependsOn: 'dev_rg'
-
-    - deployment: 'dev_kv'
-      environment: 'dev'
-      component: 'kv'
-      service_connection: 'DTS-SHAREDSERVICES-DEV'
-      storage_account_name: pip-devops-dev-sa
-      dependsOn: 'dev_rg'
-
-    - deployment: stg_rg
-      environment: stg
-      component: rg
-      service_connection: DTS-SHAREDSERVICES-STG
-      storage_account_name: pip-devops-stg-sa
-      dependsOn: Precheck
-    - deployment: stg_kv
-      environment: stg
-      component: kv
-      service_connection: DTS-SHAREDSERVICES-STG
-      storage_account_name: pip-devops-stg-sa
-      dependsOn: stg_rg
-    - deployment: stg_vnet
-      environment: stg
-      component: vnet
-      service_connection: DTS-SHAREDSERVICES-STG
-      storage_account_name: pip-devops-stg-sa
-      dependsOn: stg_rg
-
-      
-
-
+      - name: stg
+      - name: dev
+      - name: test
+      - name: stg
+      - name: prod
 
 stages:
   - stage: Precheck
@@ -171,20 +66,38 @@ stages:
               serviceConnection: 'DCD-CFT-Sandbox'
 
 
-  - ${{ each deployment in parameters.environment_components }}:
-    - stage: ${{ deployment.deployment }}
-      dependsOn: ${{ deployment.dependsOn }}
-      jobs:
-        - job: TerraformPlanApply
-          pool:
-            vmImage: ${{ variables.agentPool }}
-          timeoutInMinutes: ${{ variables.timeoutInMinutes }}
-          steps:
-          - template: steps/terraform.yaml@cnp-azuredevops-libraries
-            parameters:
-              overrideAction: ${{ parameters.overrideAction }}
-              environment: ${{ deployment.environment }}
-              component: ${{ deployment.component }}
-              serviceConnection: ${{ deployment.service_connection }}
-              terraformInitSubscription: ${{ variables.terraformInitSubscription }}
-              product: ${{ variables.product }}
+  - ${{ each environment in parameters.environments }}:
+    - template: pipeline/stages/tf-action.yaml
+      parameters: 
+        env: environment
+        terraformAction: plan
+        dependsOn: 
+          - ${{ if eq('${{ environment }}', 'sbox') }}:
+            - Precheck
+          - ${{ if eq('${{ environment }}', 'dev') }}:
+            - apply_sbox
+          - ${{ if eq('${{ environment }}', 'test') }}:
+            - apply_dev
+          - ${{ if eq('${{ environment }}', 'stg') }}:
+            - apply_test
+
+    - ${{ if ne('${{ environment }}', 'sbox') }}:
+      - template: pipeline/stages/wait.yaml
+        parameters: 
+          env: environment
+          dependsOn: plan_${{ environment }}
+
+    - template: pipeline/stages/tf-action.yaml
+      parameters: 
+        env: environment
+        terraformAction: apply
+        dependsOn: 
+          - ${{ if eq('${{ environment }}', 'sbox') }}:
+            - plan_${{ environment }}
+          - ${{ if eq('${{ environment }}', 'dev') }}:
+            - wait_${{ environment }}
+          - ${{ if eq('${{ environment }}', 'test') }}:
+            - wait_${{ environment }}
+          - ${{ if eq('${{ environment }}', 'stg') }}:
+            - wait_${{ environment }}
+
