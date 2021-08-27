@@ -81,13 +81,12 @@ stages:
       parameters: 
         env: environment
         terraformAction: apply
-        dependsOn: 
-          - ${{ if eq('${{ environment }}', 'sbox') }}:
-            - plan_${{ environment }}
-          - ${{ if eq('${{ environment }}', 'dev') }}:
-            - wait_${{ environment }}
-          - ${{ if eq('${{ environment }}', 'test') }}:
-            - wait_${{ environment }}
-          - ${{ if eq('${{ environment }}', 'stg') }}:
-            - wait_${{ environment }}
+        ${{ if eq('${{ environment }}', 'sbox') }}:
+          dependsOn: plan_${{ environment }}
+        ${{ if eq('${{ environment }}', 'dev') }}:
+          dependsOn: wait_${{ environment }}
+        ${{ if eq('${{ environment }}', 'test') }}:
+          dependsOn: wait_${{ environment }}
+        ${{ if eq('${{ environment }}', 'stg') }}:
+          dependsOn: wait_${{ environment }}
 
