@@ -60,33 +60,33 @@ stages:
   - ${{ each environment in parameters.environments }}:
     - template: pipeline/stages/tf-action.yaml
       parameters: 
-        env: environment
+        env: ${{ environment.name }}
         terraformAction: plan
-        ${{ if eq('${{ environment }}', 'sbox') }}:
+        ${{ if eq('${{ environment.name }}', 'sbox') }}:
           dependsOn: Precheck
-        ${{ if eq('${{ environment }}', 'dev') }}:
+        ${{ if eq('${{ environment.name }}', 'dev') }}:
           dependsOn: apply_sbox
-        ${{ if eq('${{ environment }}', 'test') }}:
+        ${{ if eq('${{ environment.name }}', 'test') }}:
           dependsOn: apply_dev
-        ${{ if eq('${{ environment }}', 'stg') }}:
+        ${{ if eq('${{ environment.name }}', 'stg') }}:
           dependsOn: apply_test
 
-    - ${{ if ne('${{ environment }}', 'sbox') }}:
+    - ${{ if ne('${{ environment.name }}', 'sbox') }}:
       - template: pipeline/stages/wait.yaml
         parameters: 
-          env: environment
-          dependsOn: 'plan_${{ environment }}'
+          env: ${{ environment.name }}
+          dependsOn: 'plan_${{ environment.name }}'
 
     - template: pipeline/stages/tf-action.yaml
       parameters: 
         env: environment
         terraformAction: apply
-        ${{ if eq('${{ environment }}', 'sbox') }}:
-          dependsOn: plan_${{ environment }}
-        ${{ if eq('${{ environment }}', 'dev') }}:
-          dependsOn: wait_${{ environment }}
-        ${{ if eq('${{ environment }}', 'test') }}:
-          dependsOn: wait_${{ environment }}
-        ${{ if eq('${{ environment }}', 'stg') }}:
-          dependsOn: wait_${{ environment }}
+        ${{ if eq('${{ environment.name }}', 'sbox') }}:
+          dependsOn: plan_${{ environment.name }}
+        ${{ if eq('${{ environment.name }}', 'dev') }}:
+          dependsOn: wait_${{ environment.name }}
+        ${{ if eq('${{ environment.name }}', 'test') }}:
+          dependsOn: wait_${{ environment.name }}
+        ${{ if eq('${{ environment.name }}', 'stg') }}:
+          dependsOn: wait_${{ environment.name }}
 

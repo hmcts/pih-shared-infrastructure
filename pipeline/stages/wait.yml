@@ -14,6 +14,6 @@ stages:
         displayName: "Wait for approval"
         pool: server
         steps:
-          - template: pipeline/steps/wait.yml
+          - template: ../steps/wait.yml
             parameters:
               environment: ${{ parameters.env }}
