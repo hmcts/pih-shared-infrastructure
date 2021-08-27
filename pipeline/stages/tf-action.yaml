@@ -7,7 +7,7 @@ parameters:
       - plan
       - apply
       - destroy
-  - name: dependsOn
+  - name: tfDependsOn
     type: string
   - name: components
     type: object
@@ -19,7 +19,7 @@ parameters:
 stages:
   - stage: ${{ parameters.terraformAction }}_${{ parameters.env }}
     displayName: "${{ parameters.terraformAction }} ${{ parameters.env }}"
-    dependsOn: ${{ parameters.dependsOn }}
+    dependsOn: ${{ parameters.tfDependsOn }}
     jobs:
       - ${{ each component in parameters.components }}:
         - job: TF${{ parameters.terraformAction }}_${{ parameters.env }}_${{ component }}
