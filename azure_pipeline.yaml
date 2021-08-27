@@ -70,6 +70,8 @@ stages:
           dependsOn: apply_dev
         ${{ if eq('${{ environment.name }}', 'stg') }}:
           dependsOn: apply_test
+        ${{ if eq('${{ environment.name }}', 'prod') }}:
+          dependsOn: apply_stg
 
     - ${{ if ne('${{ environment.name }}', 'sbox') }}:
       - template: pipeline/stages/wait.yaml
@@ -83,10 +85,6 @@ stages:
         terraformAction: apply
         ${{ if eq('${{ environment.name }}', 'sbox') }}:
           dependsOn: plan_${{ environment.name }}
-        ${{ if eq('${{ environment.name }}', 'dev') }}:
-          dependsOn: wait_${{ environment.name }}
-        ${{ if eq('${{ environment.name }}', 'test') }}:
-          dependsOn: wait_${{ environment.name }}
-        ${{ if eq('${{ environment.name }}', 'stg') }}:
+        ${{ if ne('${{ environment.name }}', 'sbox') }}:
           dependsOn: wait_${{ environment.name }}
 

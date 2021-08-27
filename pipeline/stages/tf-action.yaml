@@ -23,11 +23,10 @@ stages:
     jobs:
       - ${{ each component in parameters.components }}:
         - job: TF${{ parameters.terraformAction }}_${{ parameters.env }}_${{ component }}
-          dependsOn: 
-            - ${{ if ne('${{ component }}', 'rg') }}:
-              - 'TF${{ parameters.terraformAction }}_${{ parameters.env }}_rg'
-            - ${{ if eq('${{ component }}', 'rg') }}:
-              - []
+          ${{ if ne('${{ component }}', 'rg') }}:
+            dependsOn: 'TF${{ parameters.terraformAction }}_${{ parameters.env }}_rg'
+          ${{ if eq('${{ component }}', 'rg') }}:
+            dependsOn: []
           pool:
             vmImage: ${{ variables.agentPool }}
           timeoutInMinutes: ${{ variables.timeoutInMinutes }}
