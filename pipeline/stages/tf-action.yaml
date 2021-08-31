@@ -1,0 +1,42 @@
+parameters:
+  - name: env
+    type: string
+  - name: terraformAction
+    default: plan
+    values: 
+      - plan
+      - apply
+      - destroy
+  - name: tfDependsOn
+    type: string
+  - name: components
+    type: object
+    default:
+      - rg
+      - vnet
+      - kv
+
+stages:
+  - stage: ${{ parameters.terraformAction }}_${{ parameters.env }}
+    displayName: "${{ parameters.terraformAction }} ${{ parameters.env }}"
+    dependsOn: ${{ parameters.tfDependsOn }}
+    jobs:
+      - ${{ each component in parameters.components }}:
+        - job: TF${{ parameters.terraformAction }}_${{ parameters.env }}_${{ component }}
+          ${{ if ne(component, 'rg') }}:
+            dependsOn: 'TF${{ parameters.terraformAction }}_${{ parameters.env }}_rg'
+          variables:
+            - template: ../variables/shared.yaml
+          pool:
+            vmImage: ${{ variables.agentPool }}
+          timeoutInMinutes: ${{ variables.timeoutInMinutes }}
+          steps:
+          - template: steps/terraform.yaml@cnp-azuredevops-libraries
+            parameters:
+              overrideAction: ${{ parameters.terraformAction }}
+              environment: ${{ parameters.env }}
+              component: ${{ component }}
+              serviceConnection: 'DTS-SHAREDSERVICES-${{ upper(parameters.env) }}'
+              terraformInitSubscription: ${{ variables.terraformInitSubscription }}
+              product: ${{ variables.product }}
+ 

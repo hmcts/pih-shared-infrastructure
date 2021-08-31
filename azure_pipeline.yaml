@@ -15,151 +15,26 @@ resources:
   repositories:
   - repository: cnp-azuredevops-libraries
     type: github
-    ref: refs/heads/dtspo-3305
+    ref: refs/heads/master
     name: hmcts/cnp-azuredevops-libraries
     endpoint: 'hmcts'
 
-variables:
-  - name: timeoutInMinutes
-    value: 60
-  - name: agentPool
-    value: ubuntu-18.04
-  - name: build
-    value: $(Build.BuildNumber)
-  - name: product
-    value: cft-platform
-  - name: terraformInitSubscription
-    value: 04d27a32-7a07-48b3-95b8-3c8691e1a263
-  - template: vars/input-variables.yaml@cnp-azuredevops-libraries
-
 parameters:
-  - name: overrideAction
-    type: string
-    default: plan
-    values:
-    - plan
-    - apply
-    - destroy
-
-  - name: environment_components
+  - name: environments
     type: object
     default:
-    - deployment: 'sbox_rg'
-      environment: 'sbox'
-      component: 'rg'
-      service_connection: 'DTS-SHAREDSERVICES-SBOX'
-      storage_account_name: pip-devops-sbox-sa
-      dependsOn: 'Precheck'
-
-    - deployment: 'sbox_kv'
-      environment: 'sbox'
-      component: 'kv'
-      service_connection: 'DTS-SHAREDSERVICES-SBOX'
-      storage_account_name: pip-devops-sbox-sa
-      dependsOn: 'sbox_rg'
-
-    - deployment: 'test_rg'
-      environment: 'test'
-      component: 'rg'
-      service_connection: 'DTS-SHAREDSERVICES-TEST'
-      storage_account_name: "pip-devops-test-sa"
-      dependsOn: 'Precheck'
-
-    - deployment: 'test_kv'
-      environment: 'test'
-      component: 'kv'
-      service_connection: 'DTS-SHAREDSERVICES-TEST'
-      storage_account_name: pip-devops-test-sa
-      dependsOn: 'test_rg'
-
-    - deployment: 'dev_rg'
-      environment: 'dev'
-      component: 'rg'
-      service_connection: "DTS-SHAREDSERVICES-DEV"
-      storage_account_name: "pip-devops-dev-sa"
-      
-      dependsOn: 'Precheck'
-
-    # - deployment: 'sbox_apim'
-    #   environment: 'sbox'
-    #   component: 'apim'
-    #   service_connection: 'DTS-SHAREDSERVICES-SBOX'
-    #   storage_account_name: pip-devops-sbox-sa
-    #   dependsOn: 'sbox_rg'
-
-    # - deployment: 'test_apim'
-    #   environment: 'test'
-    #   component: 'apim'
-    #   service_connection: 'DTS-SHAREDSERVICES-TEST'
-    #   storage_account_name: "pip-devops-test-sa"
-
-    #   dependsOn: 'test_rg'
-
-    # - deployment: 'dev_apim'
-    #   environment: 'dev'
-    #   component: 'apim'
-    #   service_connection: "DTS-SHAREDSERVICES-DEV"
-    #   storage_account_name: "pip-devops-dev-sa"
-      
-      # dependsOn: 'dev_rg'
-
-    - deployment: 'sbox_vnet'
-      environment: 'sbox'
-      component: 'vnet'
-      service_connection: "DTS-SHAREDSERVICES-DEV"
-      storage_account_name: "pip-devops-dev-sa"
-      
-      dependsOn: 'sbox_kv'
-    
-    - deployment: 'test_vnet'
-      environment: 'test'
-      component: 'vnet'
-      service_connection: "DTS-SHAREDSERVICES-TEST"
-      storage_account_name: "pip-devops-test-sa"
-      
-      dependsOn: 'test_kv'
-
-    - deployment: 'dev_vnet'
-      environment: 'dev'
-      component: 'vnet'
-      service_connection: "DTS-SHAREDSERVICES-dev"
-      storage_account_name: "pip-devops-dev-sa"
-      dependsOn: 'dev_rg'
-
-    - deployment: 'dev_kv'
-      environment: 'dev'
-      component: 'kv'
-      service_connection: 'DTS-SHAREDSERVICES-DEV'
-      storage_account_name: pip-devops-dev-sa
-      dependsOn: 'dev_rg'
-
-    - deployment: stg_rg
-      environment: stg
-      component: rg
-      service_connection: DTS-SHAREDSERVICES-STG
-      storage_account_name: pip-devops-stg-sa
-      dependsOn: Precheck
-    - deployment: stg_kv
-      environment: stg
-      component: kv
-      service_connection: DTS-SHAREDSERVICES-STG
-      storage_account_name: pip-devops-stg-sa
-      dependsOn: stg_rg
-    - deployment: stg_vnet
-      environment: stg
-      component: vnet
-      service_connection: DTS-SHAREDSERVICES-STG
-      storage_account_name: pip-devops-stg-sa
-      dependsOn: stg_rg
-
-      
-
-
+      - name: sbox
+      - name: dev
+      - name: test
+      - name: stg
+      - name: prod
 
 stages:
   - stage: Precheck
     jobs:
       - job:
+        variables:
+          - template: pipeline/variables/shared.yaml
         pool:
           vmImage: ${{ variables.agentPool }}
         timeoutInMinutes: ${{ variables.timeoutInMinutes }}
@@ -171,20 +46,34 @@ stages:
               serviceConnection: 'DCD-CFT-Sandbox'
 
 
-  - ${{ each deployment in parameters.environment_components }}:
-    - stage: ${{ deployment.deployment }}
-      dependsOn: ${{ deployment.dependsOn }}
-      jobs:
-        - job: TerraformPlanApply
-          pool:
-            vmImage: ${{ variables.agentPool }}
-          timeoutInMinutes: ${{ variables.timeoutInMinutes }}
-          steps:
-          - template: steps/terraform.yaml@cnp-azuredevops-libraries
-            parameters:
-              overrideAction: ${{ parameters.overrideAction }}
-              environment: ${{ deployment.environment }}
-              component: ${{ deployment.component }}
-              serviceConnection: ${{ deployment.service_connection }}
-              terraformInitSubscription: ${{ variables.terraformInitSubscription }}
-              product: ${{ variables.product }}
+  - ${{ each environment in parameters.environments }}:
+    - template: pipeline/stages/tf-action.yaml
+      parameters: 
+        env: ${{ environment.name }}
+        terraformAction: plan
+        ${{ if eq(environment.name, 'sbox') }}:
+          tfDependsOn: Precheck
+        ${{ if eq(environment.name, 'dev') }}:
+          tfDependsOn: apply_sbox
+        ${{ if eq(environment.name, 'test') }}:
+          tfDependsOn: apply_dev
+        ${{ if eq(environment.name, 'stg') }}:
+          tfDependsOn: apply_test
+        ${{ if eq(environment.name, 'prod') }}:
+          tfDependsOn: apply_stg
+
+    - ${{ if ne(environment.name, 'sbox') }}:
+      - template: pipeline/stages/wait.yaml
+        parameters: 
+          env: ${{ environment.name }}
+          dependsOn: 'plan_${{ environment.name }}'
+
+    - template: pipeline/stages/tf-action.yaml
+      parameters: 
+        env: ${{ environment.name }}
+        terraformAction: apply
+        ${{ if eq(environment.name, 'sbox') }}:
+          tfDependsOn: plan_${{ environment.name }}
+        ${{ if ne(environment.name, 'sbox') }}:
+          tfDependsOn: wait_${{ environment.name }}
+

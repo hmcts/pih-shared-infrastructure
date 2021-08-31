@@ -1,8 +1,3 @@
-# resource "azurerm_resource_group" "rg" {
-#   name     = "pipshared${var.env}rg"
-#   location = "UK South"
-# }
-
 module "claim-store-vault" {
   source                  = "github.com/hmcts/cnp-module-key-vault"
   name                    = "pip-shared-kv-${var.env}" // Max 24 characters
@@ -15,8 +10,5 @@ module "claim-store-vault" {
   common_tags = tomap({
     Team_contact = "#vh-devops"
   })
-
-
-
 }
 
