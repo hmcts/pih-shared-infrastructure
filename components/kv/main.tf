@@ -1,3 +1,17 @@
+
+
+# Generic locals
+locals {
+  common_tags = module.ctags.common_tags
+}
+
+module "ctags" {
+  source      = "git::https://github.com/hmcts/terraform-module-common-tags.git?ref=master"
+  environment = var.env
+  product     = var.product
+  builtFrom   = var.builtFrom
+}
+
 module "claim-store-vault" {
   source                  = "github.com/hmcts/cnp-module-key-vault"
   name                    = "pip-shared-kv-${var.env}" // Max 24 characters
@@ -7,8 +21,6 @@ module "claim-store-vault" {
   resource_group_name     = "pip-sharedservices-${var.env}-rg"
   product_group_name      = "DTS Publishing and Information" # e.g. MI Data Platform, or dcd_cmc
   create_managed_identity = true
-  common_tags = tomap({
-    Team_contact = "#vh-devops"
-  })
+  common_tags             = local.common_tags
 }
 

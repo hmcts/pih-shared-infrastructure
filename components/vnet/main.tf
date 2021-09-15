@@ -19,6 +19,18 @@
 ## 
 ## }
 
+# Generic locals
+locals {
+  common_tags = module.ctags.common_tags
+}
+
+module "ctags" {
+  source      = "git::https://github.com/hmcts/terraform-module-common-tags.git?ref=master"
+  environment = var.env
+  product     = var.product
+  builtFrom   = var.builtFrom
+}
+
 module "vnet" {
   source              = "Azure/vnet/azurerm"
   vnet_name           = "pip-sharedinfra-vnet-${var.env}"
@@ -27,8 +39,6 @@ module "vnet" {
   address_space       = ["10.101.1.0/26"]
   subnet_prefixes     = ["10.101.1.32/27", "10.101.1.0/27"]
   subnet_names        = ["mgmt-subnet-${var.env}", "pip-subnet-${var.env}"]
-  tags = {
-    environment = "${var.env}"
-  }
+  tags                = local.common_tags
 }
 
