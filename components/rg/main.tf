@@ -1,6 +1,6 @@
 locals {
   sharedServicePrefix = "pipshared${var.env}"
-  sharedInfraPrefix   = "pip-sharedservices-${var.env}-"
+  sharedInfraPrefix   = "pip-sharedservices-${var.env}"
   common_tags         = module.ctags.common_tags
 }
 
